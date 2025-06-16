@@ -1,0 +1,1158 @@
+{
+  "name": "Basecamp Link",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.command }}",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        440,
+        -90
+      ],
+      "id": "3bc7b7db-e044-45a9-9627-095757a8a3da",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d5fcc34f-5293-410d-b59a-13a399ce6076",
+              "name": "=final_basecamp_message",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1110,
+        -60
+      ],
+      "id": "05709ccd-e107-4b90-96fd-89d81dadc6b2",
+      "name": "Final Basecamp Message"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "442d61ad-3a99-4d7a-93cf-753a7c877460",
+                    "leftValue": "={{ $json.body.command }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "chatInput"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -120,
+        -210
+      ],
+      "id": "eb3fd2e5-39f7-43b8-887d-58d662a9fde1",
+      "name": "!reka "
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a21a1f2b-cdad-4c11-a7ba-320472fbcb13",
+              "name": "body.command",
+              "value": "={{ $json.body.command }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        100,
+        -210
+      ],
+      "id": "e4228145-9e8c-4be7-936f-55ecb692d92b",
+      "name": "Reading"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.final_basecamp_message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        -60
+      ],
+      "id": "81965b21-8abe-47ca-b31f-d487e7e36325",
+      "name": "Send to Basecamp"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "calendarautomation",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        190
+      ],
+      "id": "6a6b9502-7d25-48b4-a5d1-0f61d903d501",
+      "name": "Basecamp BOT !Reka",
+      "webhookId": "9b106d77-8b6c-46ce-adef-079a96da5e09"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bfb6b417-e47f-4f82-b226-9ca64e5623de",
+              "name": "=meetinglink",
+              "value": "={{ $json.body.command.match(/https:\\/\\/meet\\.google\\.com\\/[^\\s]+/)?.[0] || \"N/A\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        550,
+        190
+      ],
+      "id": "ef65468f-b0d5-4f21-b87a-4d8103b46679",
+      "name": "Get The Meeting Link"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "442d61ad-3a99-4d7a-93cf-753a7c877460",
+                    "leftValue": "={{ $json.body.command }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "chatInput"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -120,
+        190
+      ],
+      "id": "2ddc3839-e33a-4d2e-8e8d-bbf19dd31b09",
+      "name": "!reka 1"
+    },
+    {
+      "parameters": {
+        "sendTo": "project@ruangreka.id",
+        "subject": "🚀 JOIN MEETING for HOSTING and RECORDING 🚀",
+        "emailType": "text",
+        "message": "=👋Hello REKA!, \nA new Google Meet session has just been started.\nBelow are the meeting details: \n🔗 Meeting Link: {{ $json.meetinglink }}\n\nPlease feel free to join if you need to act as the host or monitor the session. Wishing you a smooth and productive meeting! 💼  Warm regards, REKA ASSISTANT 🤖",
+        "options": {
+          "ccList": "carelshermawan@gmail.com"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1110,
+        190
+      ],
+      "id": "9b218826-7c4a-4546-a463-5ac2c24af3db",
+      "name": "Gmail",
+      "webhookId": "6a64aa72-d393-49c0-b8a9-729690e926ea",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "tyKwRrBj2cxk71LO",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a21a1f2b-cdad-4c11-a7ba-320472fbcb13",
+              "name": "body.command",
+              "value": "={{ $json.body.command }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        100,
+        190
+      ],
+      "id": "78192787-27a1-4020-9df5-c25e057b41f1",
+      "name": "Reading Session"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.command }}",
+                    "rightValue": "generatemeeting",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "798cdcc5-202f-4aee-a923-66796c47f3d2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Generate Meeting"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "850ea348-90eb-438f-96c6-dbffcf992161",
+                    "leftValue": "={{ $json.body.command }}",
+                    "rightValue": "deletemeeting",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Delete Meeting"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "73c6f469-ee5f-4302-902b-34f33919920f",
+                    "leftValue": "={{ $json.body.command }}",
+                    "rightValue": "joinmeeting",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Join Meeting"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "695be267-d306-4b29-a701-70c1b57cb60d",
+                    "leftValue": "={{ $json.body.command }}",
+                    "rightValue": "help",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Reka Help"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -340,
+        169
+      ],
+      "id": "020bfb96-c56a-43f0-9be6-7b45184b495f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=Hi {{ $('Basecamp BOT !Reka').item.json.body.creator.name }}, 👋  \nThe REKA host will join the meeting shortly and start the recording.  \nPlease hang tight for a moment! 🎥⏳\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        190
+      ],
+      "id": "c4907878-60aa-4503-a2eb-1f29b9aab585",
+      "name": "Send to Basecamp1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "442d61ad-3a99-4d7a-93cf-753a7c877460",
+                    "leftValue": "={{ $json.body.command }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "chatInput"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -120,
+        690
+      ],
+      "id": "bd11beb5-f491-4ee8-b9b0-38f97a935d60",
+      "name": "Thinking"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://3.basecampapi.com/5632316/buckets/42453584/chats/8688396574/lines.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=Hi {{ $('Basecamp BOT !Reka').item.json.body.creator.name }}, 👋   Here’s the template along with a brief explanation of its purpose — feel free to copy and use it right away! ✨"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        390
+      ],
+      "id": "da5e0553-41b5-4481-b122-8288e1d0149f",
+      "name": "Welcome Message",
+      "credentials": {
+        "oAuth2Api": {
+          "id": "cAhZwWV5dPoquTnF",
+          "name": "Basecamp"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://3.basecampapi.com/5632316/buckets/42453584/chats/8688396574/lines.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=!reka joinmeeting\n⭕️Next, make sure to copy the Meeting Link\n\nExample:\n!reka joinmeeting\nmeet.google.com/abc-def-xyz\n\n_______\nHere’s the command to request the REKA Host to join the meeting and start the recording. 🎥✨\n\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        790
+      ],
+      "id": "127d1078-8b93-4f16-a268-e8a2c9f40dcd",
+      "name": "For Join meeting",
+      "credentials": {
+        "oAuth2Api": {
+          "id": "cAhZwWV5dPoquTnF",
+          "name": "Basecamp"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://3.basecampapi.com/5632316/buckets/42453584/chats/8688396574/lines.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=!reka ∂eletemeeting\n⭕️Next, make sure to copy the Meeting Title, Meeting Link and Meeting ID you want to delete — this is required.\n\nExample:\n!reka deletemeeting\n🫵 Title: MEETING WITH JOKOWI\n🗓 Date: 17 August 2025\n⏰ Start Time: 23:00\n⏰ End Time: 24:00\n🔗 Meeting Link: YES\nAttendees: syara, nurul, polisi, tentara\n_____\n\nThis template is used to remove an event that’s already been created. 🗑️"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        990
+      ],
+      "id": "20c7e35a-6b9f-488f-8ec4-e9b2c83b897f",
+      "name": "For Delete Meeting",
+      "credentials": {
+        "oAuth2Api": {
+          "id": "cAhZwWV5dPoquTnF",
+          "name": "Basecamp"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://3.basecampapi.com/5632316/buckets/42453584/chats/8688396574/lines.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=!reka generatemeeting\n🔗Link Generator🔗\n🫵 Title: [MEETING/Placeholder/D_Day] Brand Name\n🗓 Date: 01 Jan 2025\n⏰ Start Time: 11:00\n⏰ End Time: 13:00\n🔗 Meeting Link: YES/NO\n👻 Attendees:\n_____\nThis one's for generating a meeting.\n\nFor attendees:\n– Just type names like syara, nurul (for individuals)\n– Or video, photo, pm, commercial (for teams)\n– Or use client emails directly\n✅ All will auto-generate Gmail invites in the Calendar event!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        590
+      ],
+      "id": "79d8b702-4bdf-46dc-8b3c-a9f58015a8af",
+      "name": "For Generate Meeting1",
+      "credentials": {
+        "oAuth2Api": {
+          "id": "cAhZwWV5dPoquTnF",
+          "name": "Basecamp"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        -240
+      ],
+      "id": "1111acf5-3cb7-4aae-a398-6826d27237fa",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "g8ZeQ8XuOx9GsFOB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.output }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1120,
+        -240
+      ],
+      "id": "714fa024-f9ec-4a1f-91fe-d445ab73f456",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1UMxUQ7J5qfnJyYED_N0Y4I7zN03nHf5ulGh6M3AgO-0",
+          "mode": "list",
+          "cachedResultName": "01 Calendar Meeting Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UMxUQ7J5qfnJyYED_N0Y4I7zN03nHf5ulGh6M3AgO-0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UMxUQ7J5qfnJyYED_N0Y4I7zN03nHf5ulGh6M3AgO-0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Event Title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_Title', ``, 'string') }}",
+            "Event Time Start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_Time_Start', ``, 'string') }}",
+            "Event Date": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_Date', ``, 'string') }}",
+            "Meeting Link": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Meeting_Link', ``, 'string') }}",
+            "Meeting ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Meeting_ID', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "Event Title"
+          ],
+          "schema": [
+            {
+              "id": " ",
+              "displayName": " ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Event Title",
+              "displayName": "Event Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Event Date",
+              "displayName": "Event Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Event Time Start",
+              "displayName": "Event Time Start",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Meeting Link",
+              "displayName": "Meeting Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Meeting ID",
+              "displayName": "Meeting ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        1240,
+        -240
+      ],
+      "id": "8fe66df2-5490-4dc5-a0e9-2b733d897fd6",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EYOBYxJvu8LiYlQJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -90
+      ],
+      "id": "70d5a82d-b5d9-449f-854b-d4301a4ddf4a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "g8ZeQ8XuOx9GsFOB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.command }}",
+        "options": {
+          "systemMessage": "=You are a helpful and friendly calendar assistant. Your job is to help users to **CREATE** Google Calendar events on the AI AGENT TOOL, and respond in **English**.\n___________________________________________\nWhenever an event is **successfully created or updated**, always reply with the following exact format — include line breaks and emojis exactly as shown:\n\n👋 Hello {{ $('Basecamp BOT !Reka').item.json.body.creator.name }}! Your meeting has been successfully generated.  \nHere are the meeting details:  \n🫵 Title: [EVENT_TITLE]  \n🗓 Scheduled for [DATE_FORMATTED]  \n⏰ Start Time: [START_TIME_FORMATTED]  \n🔗 Here’s the meeting link for your convenience:\n[MEETING_LINK]  \n🆔 Meeting ID: [EVENT_ID]\n___________________________________________\n📌 Field Rules:\n- `[EVENT_TITLE]`: Use the full title from the user created event.\n- `[DATE_FORMATTED]`: Format as `03 June 2025`. \n- `[START_TIME_FORMATTED]`: Format as `12:35`.  IF the user request the `ALL` or `ALL TIME`, mark the calendar time to **All Day**\n- `[MEETING_LINK]`: Show full Google Meet link (or say `No meeting link available.` if not present).  \n- `[EVENT_ID]`: Always show the calendar’s event ID on the last line under the “MEETING ID” label.\n___________________________________________\n❗IMPORTANT:\n- Never skip “MEETING ID” even if no ID is given — just say `Unavailable`.\n- Do not explain the response. Just return the message format above.\n \n___________________________________________\n❗IMPORTANT:\nIF The user say something like \"No Meeting Link\" or \"No Meeting Link Required\" or \"Meeting Link: No\", Just continue to CREATE EVENT on Google Calendar and sent this Message:\n\nHello {{ $('Basecamp BOT !Reka').item.json.body.creator.name }}! Your meeting has been successfully generated.  \nHere are the meeting details:  \n🫵 Title: [EVENT_TITLE]  \n🗓 Scheduled for [DATE_FORMATTED]  \n⏰ Start Time: [START_TIME_FORMATTED]  \n🔗 No Meeting Link.\n🆔 Meeting ID: [EVENT_ID]\n___________________________________________\n❗IMPORTANT:\nYou are a scheduling assistant for event invitations.\n\nThe following are predefined groups of attendees based on their roles:\n\nCP TEAM\nGabrielle → gbpaskal13@gmail.com\nNurul → nurul.hertiii@gmail.com\nSyara → syarazahra23@gmail.com\nNanang → nanangsid.67@gmail.com\nArian → arianchandra08@gmail.com\n\nPM\nCarel → carelshermawan@gmail.com\n\nCommercial\nDarren → manuel.darrensoeseno@gmail.com\nVanya → evaniavanya@gmail.com\n\nPhoto\nMatthew → matthewhadiwidjaja@gmail.com\nDharmawan → dharmawantgs@gmail.com\n\nVideo\nMichael → michaelleooo22@gmail.com\nGerry → gerrypratama243@gmail.com\n\nADS\nRaihan → ahmadraihan21rhn@gmail.com\n\nDirector\nDedy → dedycyhuang@gmail.com\n\nInstructions:\n\nWhen I type a role like \"CP TEAM\", you must include all emails under that role into the calendar invitation.\nIf I type multiple roles (e.g., \"CP TEAM, Commercial\"), include all emails from both groups.\nIf I mention a name, include the email address linked to that name.\nIf I type \"ALL\", include every email listed above.\nIf I directly provide an email (e.g., example@gmail.com), include that as well in the invitation.\nIf I directly provide an email are not in the contact list (e.g., example@gmail.com), include that as well in the invitation.\n\nAvoid duplicate emails.\n___________________________________________\n🗑️ If the user asks you to **delete a meeting** or **deletemeeting**,\n1. Get the message after ''🆔 Meeting ID'' for your Meeting ID to delete.\n\n❗ADDITIONAL RULE:\nIf you detect that an event with the **same title/project name** has already been created before (even if it matches the existing data in Google Sheets or any previous record), **you must still create a NEW event** based on the user's request.\n✔️ Generate a new Google Calendar event using the requested date and time, with a **new unique Meeting ID**.\n✔️ Do NOT reject or ignore duplicate names — each request should result in a fresh event with its own time and unique meeting link.\nThis ensures that users can create multiple sessions with the same title without being blocked by duplication rules.\n\nIF YOU DONT GENERATE THE MEETING ID, PLEASE AUTO REGENERATE THE MEETING ID\nTodays date is GMT+7 {{$now}}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        472,
+        -310
+      ],
+      "id": "d9715700-af96-404c-8f1a-f90e96cf1a32",
+      "name": "CREATE EVENT AI"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use this tool to create a new calendar event.",
+        "calendar": {
+          "__rl": true,
+          "value": "project@ruangreka.id",
+          "mode": "list",
+          "cachedResultName": "REKA CALENDAR"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', `it is the meeting date starting time with GMT+7 timezone.`, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', `it is the meeting date ending time.`, 'string') }}",
+        "useDefaultReminders": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Use_Default_Reminders', ``, 'boolean') }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('attendees0_Attendees', `the attendees of the calendar event`, 'string') }}"
+          ],
+          "conferenceDataUi": {
+            "conferenceDataValues": {
+              "conferenceSolution": "hangoutsMeet"
+            }
+          },
+          "guestsCanModify": "={{ true }}",
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', `the name of the calendar event`, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        -90
+      ],
+      "id": "90e29bee-3624-4d20-861b-d62ee9843e96",
+      "name": "Create event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "AU1kpd9VOFKk7B1E",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an AI assistant whose task is to extract and record all relevant event data generated by a previous AI agent.\n\nBased on this input:\n{{ $json.output }}\n\nPlease extract the following fields from the text or structured input:\n\n1. Event Title  \n2. Event Date  \n3. Event Start Time  \n4. Event End Time  \n5. Event Attendees (names or emails, separated by commas)  \n6. Meeting Link  \n7. Meeting ID\n\nIf a field is missing, return `\"N/A\"` or leave it empty.\n\nOnce extracted, save this data into the Google Sheets document that has been connected to this AI agent tool.\n\nEnsure each extracted value is written into the correct column. Do not skip rows. Add each new event as a new row in the sheet.\n\nOutput only confirmation that the data has been recorded successfully, not the data itself.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1032,
+        -460
+      ],
+      "id": "47fc83c4-97dc-4f84-a618-da98cfffd6ee",
+      "name": "Sheets for CREATE"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "project@ruangreka.id",
+          "mode": "list",
+          "cachedResultName": "REKA CALENDAR"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        680,
+        -90
+      ],
+      "id": "08a00d42-bfb6-45fa-b1b1-cee341029723",
+      "name": "Delete Event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "AU1kpd9VOFKk7B1E",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "calendar": {
+          "__rl": true,
+          "value": "project@ruangreka.id",
+          "mode": "list",
+          "cachedResultName": "REKA CALENDAR"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        -90
+      ],
+      "id": "728430f7-c71d-4b84-9e68-6434e3174895",
+      "name": "Get Event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "AU1kpd9VOFKk7B1E",
+          "name": "Google Calendar account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "CREATE EVENT AI",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final Basecamp Message": {
+      "main": [
+        [
+          {
+            "node": "Send to Basecamp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "!reka ": {
+      "main": [
+        [
+          {
+            "node": "Reading",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reading": {
+      "main": [
+        [
+          {
+            "node": "CREATE EVENT AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basecamp BOT !Reka": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get The Meeting Link": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "!reka 1": {
+      "main": [
+        [
+          {
+            "node": "Reading Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reading Session": {
+      "main": [
+        [
+          {
+            "node": "Get The Meeting Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "!reka ",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "!reka ",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "!reka 1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Thinking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Send to Basecamp1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Thinking": {
+      "main": [
+        [
+          {
+            "node": "Welcome Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "For Delete Meeting",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "For Join meeting",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "For Generate Meeting1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Welcome Message": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sheets for CREATE",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Sheets for CREATE",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sheets for CREATE",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Basecamp": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "CREATE EVENT AI",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CREATE EVENT AI": {
+      "main": [
+        [
+          {
+            "node": "Final Basecamp Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sheets for CREATE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create event": {
+      "ai_tool": [
+        [
+          {
+            "node": "CREATE EVENT AI",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheets for CREATE": {
+      "main": [
+        []
+      ]
+    },
+    "Delete Event": {
+      "ai_tool": [
+        [
+          {
+            "node": "CREATE EVENT AI",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Event": {
+      "ai_tool": [
+        [
+          {
+            "node": "CREATE EVENT AI",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "39546e04-4505-4ba5-9148-4ded1d2d3365",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "23724051c4ef3eebac31c5106d1a487ae14330ad7489e7425019f795c5722d62"
+  },
+  "id": "UGQVDDewPec0bPH4",
+  "tags": []
+}
